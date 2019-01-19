@@ -1,13 +1,16 @@
-const btnY = document.querySelector("#yes");
-const btnN = document.querySelector("#no");          
+const btns = document.querySelectorAll(".btn");
 
-btnY.addEventListener("click", function() {
+btns.forEach(function(btn) {
     const ipcRenderer = require("electron").ipcRenderer;
-    const pass = "yes";
-    ipcRenderer.send("resp", pass);
+    let res = '';
+
+    btn.addEventListener("click", function() {
+        if (btn.id == "yes") {
+            res = "yes";
+            ipcRenderer.send("resp", res);
+        } else {
+            res = "no";
+            ipcRenderer.send("resp", res);
+        }
+    });
 });
-btnN.addEventListener("click", function() {
-    const ipcRenderer = require("electron").ipcRenderer;
-    const fail = "no";
-    ipcRenderer.send("resp", fail);
-}); 
