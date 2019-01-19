@@ -24,10 +24,12 @@ let word = '';
             return data.json();
         })
         .then(json => {
-            cat.innerHTML = json[0].partOfSpeech;
+            const speech = json[0].partOfSpeech;
+            const text = json[0].text;
+                cat.nodeValue = speech;
 
             const p = document.createElement("p");
-            const txt = document.createTextNode(json[0].text);
+            const txt = document.createTextNode(text);
                 p.appendChild(txt);
                 desc.appendChild(p);
         })
@@ -37,8 +39,12 @@ let word = '';
 
 submit.addEventListener("click", function() {
     const ipcRenderer = require("electron").ipcRenderer;
+    
+    const toFind = guess.value.toLowerCase();
+    const theWord = word.toLowerCase();
 
-    if (guess.value.toLowerCase() == word.toLowerCase()) {
+    //Dwa osobne consty tylko dlatego, żeby nie dało się podmienić danych w konsoli
+    if (toFind === theWord) {
         const pass = "pass";
         ipcRenderer.send("guess", pass);
     } else {
